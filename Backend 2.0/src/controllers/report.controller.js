@@ -1,6 +1,9 @@
 const pdfParse = require("pdf-parse")
 const { generateReport} = require("../services/gen_AI")
 const ReportModel = require("../models/Report.model")
+const authMiddleware = require("../middlewares/auth.middleware")
+const upload = require("../middlewares/file.middleware")
+
 
 
 async function generateReportController(req, res) {
