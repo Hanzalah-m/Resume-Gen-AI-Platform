@@ -14,7 +14,7 @@ const Login = () => {
   }
 
   return (
-    <div className="w-full max-w-xl rounded-[32px] border border-[#285A48] bg-[#10221B]/95 p-8 shadow-[0_30px_80px_rgba(14,47,40,0.35)] backdrop-blur-xl">
+    <div className="w-full max-w-xl rounded-4xl border border-[#285A48] bg-[#10221B]/95 p-8 shadow-[0_30px_80px_rgba(14,47,40,0.35)] backdrop-blur-xl">
       <div className="mb-8 text-center">
         <p className="text-sm font-semibold uppercase tracking-[0.35em] text-[#B0E4CC]">Welcome back</p>
         <h1 className="mt-4 text-4xl font-semibold text-white">Sign in to your account</h1>
@@ -50,7 +50,7 @@ const Login = () => {
 
         <button
           type="submit"
-          className="w-full rounded-3xl bg-gradient-to-r from-[#285A48] to-[#408A71] px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-[#285A48]/30 transition hover:-translate-y-0.5 hover:shadow-[#408A71]/30"
+          className="w-full rounded-3xl bg-linear-to-r from-[#285A48] to-[#408A71] px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-[#285A48]/30 transition hover:-translate-y-0.5 hover:shadow-[#408A71]/30"
         >
           Login
         </button>
