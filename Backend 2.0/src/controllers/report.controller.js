@@ -1,5 +1,5 @@
 const pdfParse = require("pdf-parse")
-const { generateReport} = require("../services/gen_AI")
+const { generateReport , generateResumePdf} = require("../services/gen_AI")
 const ReportModel = require("../models/Report.model")
 const authMiddleware = require("../middlewares/auth.middleware")
 const upload = require("../middlewares/file.middleware")
@@ -60,4 +60,28 @@ async function getAllReportsController(req, res) {
 }
 
 
-module.exports = { generateReportController, getReportByIdController, getAllReportsController }
+async function generateResumePdfController(req, res) {
+    const { Id } = req.params;
+
+    const Report = await ReportModel.findOne({ _id: Id, user: req.user.id });
+
+    if (!Report) {
+        return res.status(404).json({
+            message: "Interview report not found."
+        });
+    }
+
+    const { resume, jobDescription, selfDescription } = Report;
+
+    const pdfBuffer = await generateResumePdf({ resume, jobDescription, selfDescription });
+
+    res.set({
+        "Content-Type": "application/pdf",
+        "Content-Disposition": `attachment; filename=resume_${Id}.pdf`
+    });
+
+    res.send(pdfBuffer);
+}
+
+
+module.exports = { generateReportController, getReportByIdController, getAllReportsController , generateResumePdfController }

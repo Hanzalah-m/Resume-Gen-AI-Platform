@@ -13,6 +13,7 @@ Router.get("/report/:Id", authMiddleware.authUser, Controller.getReportByIdContr
 
 Router.get("/", authMiddleware.authUser, Controller.getAllReportsController)
 
+Router.post("/resume/pdf/:Id", authMiddleware.authUser, Controller.generateResumePdfController)
 
 
 
