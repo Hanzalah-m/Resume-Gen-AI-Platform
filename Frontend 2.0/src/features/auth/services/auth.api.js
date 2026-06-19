@@ -14,9 +14,9 @@ async function registerUser(username, email, password) {
   } 
 }
 
-async function loginUser(email, password) {
+async function loginUser(username, email, password) {
   try {
-    const response = await api.post("/api/auth/login", { email, password });
+    const response = await api.post("/api/auth/login", {username, email, password });
     return response.data;
   } catch (error) {
     throw error.response ? error.response.data : new Error("Network Error");

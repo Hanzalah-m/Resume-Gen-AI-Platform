@@ -1,19 +1,19 @@
 import { memo } from 'react';
-import Homepage from './features/auth/page/homepage.jsx';
+import AuthProvider from './features/auth/state/auth.context.jsx';
+import { RouterProvider } from 'react-router-dom';
+import { router } from './routes.app.jsx';
 
 const App = () => {
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#091413] text-[#B0E4CC]">
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute left-20 top-16 h-56 w-56 rounded-full bg-[#408A71]/20 blur-3xl" />
-        <div className="absolute right-32 bottom-24 h-72 w-72 rounded-full bg-[#B0E4CC]/15 blur-3xl" />
+    <AuthProvider>
+      <div className="relative min-h-screen overflow-hidden bg-[#091413] text-[#B0E4CC]">
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="absolute left-20 top-16 h-56 w-56 rounded-full bg-[#408A71]/20 blur-3xl" />
+          <div className="absolute right-32 bottom-24 h-72 w-72 rounded-full bg-[#B0E4CC]/15 blur-3xl" />
+        </div>
+        <RouterProvider router={router} />
       </div>
-      <Homepage />
-    </div>
-
-
-    
-      
+    </AuthProvider>
   );
 };
 

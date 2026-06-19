@@ -1,16 +1,57 @@
 import { useState } from 'react'
+import { useAuth } from '../hooks/useAuth'
+import { useNavigate, Link } from 'react-router-dom'
+
 
 const Login = () => {
-  const [formData, setFormData] = useState({ login: '', password: '' })
+  const { loading, handleLogin } = useAuth()
+  const navigate = useNavigate()
+  // const [formData, setFormData] = useState({ email: '', password: '' })
 
-  const handleChange = (event) => {
-    const { name, value } = event.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
+  // const handleChange = (event) => {
+  //   const { name, value } = event.target
+  //   setFormData((prev) => ({ ...prev, [name]: value }))
+  // }
+
+  // const [email, setEmail] = useState('');
+  // const [password, setPassword] = useState('');
+
+  // const handleSubmit = async (event) => {
+  //   event.preventDefault()
+  //   await handleLogin(email, password);
+  //   navigate('/dashboard')
+  // }
+
+const [identifier, setIdentifier] = useState("");
+const [password, setPassword] = useState("");
+
+const isEmail = (value) => /\S+@\S+\.\S+/.test(value);
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  const payload = {
+    password
+  };
+
+  if (isEmail(identifier)) {
+    payload.email = identifier;
+  } else {
+    payload.username = identifier;
   }
 
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    console.log('Login submitted', formData)
+  await handleLogin(payload.username, payload.email, payload.password);
+  navigate('/dashboard')
+};
+
+
+
+  if (loading) { 
+    return (
+      <div className="flex h-[50%] items-center justify-center">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[#408A71]"></div>
+      </div>
+    );
   }
 
   return (
@@ -26,9 +67,12 @@ const Login = () => {
           <span className="text-sm font-medium text-[#B0E4CC]">Username or email</span>
           <input
             type="text"
-            name="login"
-            value={formData.login}
-            onChange={handleChange}
+            name="text"
+            id="text"
+            // value={formData.login}
+            // onChange={handleChange}
+            // 
+            onChange={(e) => setIdentifier(e.target.value)}
             placeholder="johndoe or john@example.com"
             className="mt-2 w-full rounded-3xl border border-[#408A71] bg-[#091413] px-4 py-3 text-[#E8F6ED] placeholder:text-[#B0E4CC]/50 focus:border-[#B0E4CC] focus:outline-none focus:ring-2 focus:ring-[#408A71]/40"
             required
@@ -40,8 +84,10 @@ const Login = () => {
           <input
             type="password"
             name="password"
-            value={formData.password}
-            onChange={handleChange}
+            id="password"
+            // value={formData.password}
+            // onChange={handleChange}
+            onChange={(e) => setPassword(e.target.value)}
             placeholder="Enter your password"
             className="mt-2 w-full rounded-3xl border border-[#408A71] bg-[#091413] px-4 py-3 text-[#E8F6ED] placeholder:text-[#B0E4CC]/50 focus:border-[#B0E4CC] focus:outline-none focus:ring-2 focus:ring-[#408A71]/40"
             required
