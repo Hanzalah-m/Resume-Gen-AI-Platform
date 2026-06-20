@@ -1,23 +1,37 @@
-import { memo } from 'react';
+import { memo, useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FileText, Upload, Plus } from "lucide-react";
-import {useReport} from '../hooks/useReport'
-import { useState,useRef } from 'react';
+import { useReport } from '../hooks/useReport'
 const Dashboard = () => {
-
-  const { loading, report, reports } = useReport()
+  const navigate = useNavigate();
+  const { loading, report, reports, generateReport, fetchAllReports } = useReport()
   const [jobDescription, setJobDescription] = useState('')
   const [selfDescription, setSelfDescription] = useState('')
   const resumeInputRef = useRef(null)
 
+  useEffect(() => {
+    fetchAllReports().catch((error) => console.error('Failed to load recent reports:', error));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const handleGenerateReport = async () => {
-    const resumeFile = resumeInputRef.current.files[0];
+    const resumeFile = resumeInputRef.current?.files?.[0];
     if (!resumeFile) {
       alert("Please upload a resume file.");
       return;
     }
-    const data = await generateReport(resumeFile, selfDescription, jobDescription);
-    navigate(`/report/${data.report._id}`);
-    
+
+    try {
+      const data = await generateReport({ jobDescription, selfDescription, resumeFile })
+      if (data?._id) {
+        navigate(`/report/${data._id}`);
+      } else {
+        alert("Report generated but could not navigate. Check backend response.");
+      }
+    } catch (error) {
+      console.error("Generate report failed:", error);
+      alert("Failed to generate report. See console for details.");
+    }
   }
 
     return (
@@ -134,27 +148,65 @@ const Dashboard = () => {
                   Recent Reports
                 </h2>
 
-                <button className="text-[#6ED6A6] text-sm">
+                <button className="text-[#6ED6A6] text-sm" onClick={() => navigate('/dashboard')}>
                   View All
                 </button>
               </div>
 
-              {/* Empty State */}
-              <div className="flex flex-col items-center justify-center py-14">
+              {loading && reports.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-14">
+                  <FileText
+                    size={40}
+                    className="text-[#408A71] animate-pulse"
+                  />
+                  <h3 className="mt-4 text-lg font-medium">
+                    Loading reports...
+                  </h3>
+                </div>
+              ) : reports.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-14">
+                  <FileText
+                    size={40}
+                    className="text-[#408A71]"
+                  />
 
-                <FileText
-                  size={40}
-                  className="text-[#408A71]"
-                />
+                  <h3 className="mt-4 text-lg font-medium">
+                    No Reports Yet
+                  </h3>
 
-                <h3 className="mt-4 text-lg font-medium">
-                  No Reports Yet
-                </h3>
-
-                <p className="text-[#B0E4CC]/60 text-center mt-2">
-                  Generate your first report to start interview preparation.
-                </p>
-              </div>
+                  <p className="text-[#B0E4CC]/60 text-center mt-2">
+                    Generate your first report to start interview preparation.
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {reports.slice(0, 4).map((item) => (
+                    <div
+                      key={item._id}
+                      className="rounded-3xl border border-[#285A48] bg-[#091413]/90 p-5 cursor-pointer transition hover:border-[#6ED6A6]"
+                      onClick={() => navigate(`/report/${item._id}`)}
+                    >
+                      <div className="flex items-start justify-between gap-4">
+                        <div>
+                          <h3 className="text-lg font-semibold text-white">
+                            {item.title || 'Untitled report'}
+                          </h3>
+                          <p className="mt-2 text-sm text-[#B0E4CC]/70 line-clamp-2">
+                            {item.jobDescription?.slice(0, 100) || 'No job description provided.'}
+                          </p>
+                        </div>
+                        <span className="rounded-full bg-[#335748]/80 px-3 py-1 text-xs font-semibold text-[#B0E4CC]">
+                          {item.matchScore ?? '—'}%
+                        </span>
+                      </div>
+                      <div className="mt-4 flex items-center justify-between text-xs text-[#B0E4CC]/60">
+                        <span>{new Date(item.createdAt).toLocaleDateString()}</span>
+                        <span>{item.selfDescription ? 'Ready to review' : 'No description'}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
 
             </div>
 
@@ -177,7 +229,7 @@ const Dashboard = () => {
                   </p>
 
                   <p className="text-xl font-bold">
-                    0
+                    {reports.length}
                   </p>
                 </div>
 
@@ -187,7 +239,7 @@ const Dashboard = () => {
                   </p>
 
                   <p className="text-sm">
-                    —
+                    {reports[0]?.title || '—'}
                   </p>
                 </div>
 

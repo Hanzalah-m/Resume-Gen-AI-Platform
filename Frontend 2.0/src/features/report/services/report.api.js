@@ -1,17 +1,17 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: "http://localhost:3000",
   withCredentials: true,
 });
 
-const generateReport = async (resume, selfDescription, jobDescription) => {
+const generateReport = async ({ jobDescription, selfDescription, resumeFile }) => {
   try {
-    const formData = new FormData();
-    formData.append("resume", resume);
-    formData.append("selfDescription", selfDescription);
-    formData.append("jobDescription", jobDescription);
-    const response = await api.post("/api/report/generate", formData, {
+    const formData = new FormData()
+    formData.append("jobDescription", jobDescription)
+    formData.append("selfDescription", selfDescription)
+    formData.append("resume", resumeFile)
+    const response = await api.post("/api/report", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -40,9 +40,9 @@ const getAllReports = async () => {
   }
 };
 
-const generateResumePdf = async (Id) => {
+const generateResumePdf = async ({Id}) => {
   try {
-    const response = await api.get(`/api/report/resume/pdf/${Id}`, { responseType: 'blob' });
+    const response = await api.post(`/api/report/resume/pdf/${Id}`, null, { responseType: 'blob' });
     return response.data;
   } catch (error) {
     throw error.response ? error.response.data : new Error("Network Error");

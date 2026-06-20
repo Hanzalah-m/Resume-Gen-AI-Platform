@@ -7,7 +7,7 @@ import { ReportProvider } from './features/report/state/report.context.jsx';
 const App = () => {
   return (
     <AuthProvider>
-      <InterviewProvider>
+      <ReportProvider>
       <div className="relative min-h-screen overflow-hidden bg-[#091413] text-[#B0E4CC]">
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <div className="absolute left-20 top-16 h-56 w-56 rounded-full bg-[#408A71]/20 blur-3xl" />
@@ -15,7 +15,7 @@ const App = () => {
         </div>
         <RouterProvider router={router} />
       </div>
-      </InterviewProvider>
+      </ReportProvider>
     </AuthProvider>
   );
 };

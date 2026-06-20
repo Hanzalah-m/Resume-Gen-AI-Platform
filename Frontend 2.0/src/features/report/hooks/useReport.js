@@ -1,17 +1,18 @@
-import { generateReport, getReportById, getAllReports, generateResumePdf } from "../services/report.api";
+import { generateReport as generateReportApi, getReportById, getAllReports, generateResumePdf } from "../services/report.api";
 import { useContext } from "react";
 import { ReportContext } from "../state/report.context";
 
 
-const useReport = () => {
-  const context = useContext(ReportContext);
-  const { loading, setLoading, report, setReport, reports, setReports } = context;
+export const useReport = () => {
+    const context = useContext(ReportContext);
+    const { loading, setLoading, report, setReport, reports, setReports } = context;
 
-    const generateReport = async (resume, selfDescription, jobDescription) => {
+    const generateReport = async ({ jobDescription, selfDescription, resumeFile }) => {
         setLoading(true);
         try {
-            const reportData = await generateReport(resume, selfDescription, jobDescription);
-            setReport(reportData.report);
+            const reportData = await generateReportApi({ jobDescription, selfDescription, resumeFile });
+            setReport(reportData.Report);
+            return reportData.Report;
         }
         catch (error) {
             console.error("Report generation failed:", error);
@@ -25,12 +26,13 @@ const useReport = () => {
         setLoading(true);
         try {
             const reportData = await getReportById(Id);
-            setReport(reportData.report);
+            setReport(reportData.Report);
+            return reportData.Report;
         }
         catch (error) {
             console.error("Fetching report failed:", error);
-        } 
-         finally {  
+        }
+        finally {
             setLoading(false);
         }
     };
@@ -39,10 +41,12 @@ const useReport = () => {
         setLoading(true);
         try {
             const reportsData = await getAllReports();
-            setReports(reportsData.reports);
+            setReports(reportsData.Reports);
+            return reportsData.Reports;
         }
         catch (error) {
             console.error("Fetching reports failed:", error);
+            throw error;
         }
         finally {
             setLoading(false);
@@ -69,5 +73,15 @@ const useReport = () => {
         }
     };
 
-    return {useReport, loading, report, reports, generateReport, fetchReportById, fetchAllReports, downloadResumePdf };
+    return {
+        loading,
+        report,
+        reports,
+        generateReport,
+        fetchReportById,
+        fetchAllReports,
+        downloadResumePdf
+    };
 }
+
+export default useReport;

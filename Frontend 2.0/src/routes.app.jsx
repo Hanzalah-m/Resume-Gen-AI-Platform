@@ -22,10 +22,12 @@ export const router = createBrowserRouter([
     {
         path: "/dashboard",
         element: <Protected><Dashboard /></Protected>
+        // element: <Dashboard />
     },
     {
         path: "/report/:reportId",
         element: <Protected><Report /></Protected>
+        
     }
 ])
 
