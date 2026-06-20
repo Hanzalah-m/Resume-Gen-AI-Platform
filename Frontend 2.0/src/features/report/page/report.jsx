@@ -47,6 +47,9 @@ const Report = () => {
     <div className="min-h-screen bg-[#07100E] text-[#E8F6ED]">
       <div className="max-w-7xl mx-auto px-6 py-8">
 
+        <div className="back mb-6 text-sm text-[#B0E4CC]/70 cursor-pointer" onClick={() => window.history.back()}>
+          &larr; Back to Dashboard
+        </div>
         {/* Hero */}
         <div className="rounded-4xl border border-[#285A48] bg-[#10221B]/95 p-8 mb-8 shadow-[0_30px_80px_rgba(14,47,40,0.35)]">
 

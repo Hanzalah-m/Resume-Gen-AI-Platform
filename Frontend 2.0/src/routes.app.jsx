@@ -5,19 +5,12 @@ import Register from './features/auth/page/Register'
 import Protected from './features/auth/component/protected'
 import Dashboard from './features/report/page/dashboard.jsx'
 import Report from './features/report/page/report.jsx'
+import PublicRoute from './features/auth/component/public.jsx'
 
 export const router = createBrowserRouter([
     {
         path: "/",
-        element: <Homepage/>
-    },
-    {
-        path: "/login",
-        element: <Homepage />
-    },
-    {
-        path: "/register",
-        element: <Homepage />
+        element: <PublicRoute><Homepage/></PublicRoute>
     },
     {
         path: "/dashboard",

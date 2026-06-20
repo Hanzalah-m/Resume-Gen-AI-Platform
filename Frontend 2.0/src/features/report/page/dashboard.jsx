@@ -140,7 +140,7 @@ const Dashboard = () => {
             </div>
 
             {/* Recent Reports */}
-            <div className="rounded-[32px] border border-[#285A48] bg-[#10221B]/95 p-8">
+            <div className="rounded-4xl border border-[#285A48] bg-[#10221B]/95 p-8">
 
               <div className="flex justify-between items-center mb-6">
 

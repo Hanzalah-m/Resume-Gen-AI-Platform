@@ -3,10 +3,14 @@ import AuthProvider from './features/auth/state/auth.context.jsx';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './routes.app.jsx';
 import { ReportProvider } from './features/report/state/report.context.jsx';
+import Navbar from './features/navbar.jsx';
 
 const App = () => {
   return (
-    <AuthProvider>
+
+    <>
+    
+    <AuthProvider><Navbar />
       <ReportProvider>
       <div className="relative min-h-screen overflow-hidden bg-[#091413] text-[#B0E4CC]">
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -17,6 +21,9 @@ const App = () => {
       </div>
       </ReportProvider>
     </AuthProvider>
+    </>
+
+    
   );
 };
 
