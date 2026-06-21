@@ -8,7 +8,7 @@ const ReportRouter = require("./routes/report.routes")
 app.use(express.json())
 app.use(cookieParser())
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: "https://airesumegen-ebon.vercel.app",
     credentials: true
 }))
 
