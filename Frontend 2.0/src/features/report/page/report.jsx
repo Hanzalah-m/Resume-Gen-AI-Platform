@@ -69,7 +69,7 @@ const Report = () => {
               </p>
             </div>
 
-            <div className="flex items-center justify-center w-40 h-40 rounded-full border-[10px] border-[#408A71]">
+            <div className="flex items-center justify-center w-40 h-40 rounded-full border-10 border-[#408A71]">
               <span className="text-5xl font-bold text-[#6ED6A6]">
                 {report.matchScore}%
               </span>
@@ -79,7 +79,7 @@ const Report = () => {
         </div>
 
         {/* Skill Gaps */}
-        <section className="rounded-[32px] border border-[#285A48] bg-[#10221B]/95 p-8 mb-8">
+        <section className="rounded-4xl border border-[#285A48] bg-[#10221B]/95 p-8 mb-8">
 
           <h2 className="text-3xl font-bold mb-6">
             Skill Gaps
