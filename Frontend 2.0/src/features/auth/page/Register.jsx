@@ -1,22 +1,25 @@
 import { useState } from 'react'
 import { useAuth } from '../hooks/useAuth'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const Register = () => {
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [error, setError] = useState('')
   const { loading, handleRegister } = useAuth()
   const navigate = useNavigate()
-  // const [formData, setFormData] = useState({ username: '', email: '', password: '' })
-
-  // const handleChange = (event) => {
-  //   const { name, value } = event.target
-  //   setFormData((prev) => ({ ...prev, [name]: value }))
-  // }
 
   const handleSubmit = async (event) => {
     event.preventDefault()
+
+    if (password !== confirmPassword) {
+      setError('Passwords do not match')
+      return
+    }
+
+    setError('')
     await handleRegister(username, email, password);
     navigate('/dashboard')
   }
@@ -35,8 +38,6 @@ const Register = () => {
           <input
             type="text"
             name="username"
-            // value={formData.username}
-            // onChange={handleChange}
             onChange={(e) => setUsername(e.target.value)}
             placeholder="Create a username"
             className="mt-2 w-full rounded-3xl border border-[#408A71] bg-[#091413] px-4 py-3 text-[#E8F6ED] placeholder:text-[#B0E4CC]/50 focus:border-[#B0E4CC] focus:outline-none focus:ring-2 focus:ring-[#408A71]/40"
@@ -49,8 +50,6 @@ const Register = () => {
           <input
             type="email"
             name="email"
-            // value={formData.email}
-            // onChange={handleChange}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="john@example.com"
             className="mt-2 w-full rounded-3xl border border-[#408A71] bg-[#091413] px-4 py-3 text-[#E8F6ED] placeholder:text-[#B0E4CC]/50 focus:border-[#B0E4CC] focus:outline-none focus:ring-2 focus:ring-[#408A71]/40"
@@ -63,8 +62,7 @@ const Register = () => {
           <input
             type="password"
             name="password"
-            // value={formData.password}
-            // onChange={handleChange}
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Create a password"
             className="mt-2 w-full rounded-3xl border border-[#408A71] bg-[#091413] px-4 py-3 text-[#E8F6ED] placeholder:text-[#B0E4CC]/50 focus:border-[#B0E4CC] focus:outline-none focus:ring-2 focus:ring-[#408A71]/40"
@@ -72,9 +70,30 @@ const Register = () => {
           />
         </label>
 
+        <label className="block">
+          <span className="text-sm font-medium text-[#B0E4CC]">Confirm Password</span>
+          <input
+            type="password"
+            name="confirmPassword"
+            value={confirmPassword}
+            onChange={(e) => {
+              setConfirmPassword(e.target.value)
+              if (error) setError('')
+            }}
+            placeholder="Re-enter your password"
+            className="mt-2 w-full rounded-3xl border border-[#408A71] bg-[#091413] px-4 py-3 text-[#E8F6ED] placeholder:text-[#B0E4CC]/50 focus:border-[#B0E4CC] focus:outline-none focus:ring-2 focus:ring-[#408A71]/40"
+            required
+          />
+        </label>
+
+        {error && (
+          <p className="text-sm font-medium text-red-400">{error}</p>
+        )}
+
         <button
           type="submit"
-          className="w-full rounded-3xl bg-linear-to-r from-[#285A48] to-[#408A71] px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-[#285A48]/30 transition hover:-translate-y-0.5 hover:shadow-[#408A71]/30"
+          disabled={loading || (confirmPassword.length > 0 && password !== confirmPassword)}
+          className="w-full rounded-3xl bg-linear-to-r from-[#285A48] to-[#408A71] px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-[#285A48]/30 transition hover:-translate-y-0.5 hover:shadow-[#408A71]/30 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
         >
           Register
         </button>
