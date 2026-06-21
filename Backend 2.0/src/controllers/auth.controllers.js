@@ -30,7 +30,11 @@ async function registerUserController(req, res) {
     { expiresIn: '1d' }
   )
 
-  res.cookie('token', token)
+  res.cookie("token", token, {
+  httpOnly: true,
+  secure: true,        // required for HTTPS (Render)
+  sameSite: "none",    // required for cross-site cookies (Vercel → Render)
+});
 
   res.status(201).json({
     message: 'user registered successfully',
@@ -70,11 +74,12 @@ async function loginUserController(req, res) {
     { expiresIn: '1d' }
   )
 
-  res.cookie('token', token, {
-    httpOnly: true,
-    sameSite: 'lax',
-    secure: process.env.NODE_ENV === 'production'
-  })
+  res.cookie("token", token, {
+  httpOnly: true,
+  secure: true,        // required for HTTPS
+  sameSite: "none",    // required for cross-site cookies
+});
+
 
   res.status(200).json({
     message: 'user logged in successfully',
