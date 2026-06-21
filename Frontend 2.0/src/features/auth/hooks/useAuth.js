@@ -20,20 +20,24 @@ const useAuth = () => {
         }
     };
 
-    const handleRegister = async (username, email, password) => {
-        setLoading(true);
-        try {
-            const userData = await registerUser(username, email, password);
-            setUser(userData.user);
-        }
-        catch (error) {
-            console.error("Registration failed:", error);
-        }
-        finally {
-            setLoading(false);
-        }
-    };
-
+const handleRegister = async (username, email, password) => {
+    setLoading(true);
+    try {
+        const userData = await registerUser(username, email, password);
+        setUser(userData.user);
+        return { success: true };
+    }
+    catch (error) {
+        console.error("Registration failed:", error);
+        const message =
+            error?.message ||
+            (typeof error === "string" ? error : "Registration failed. Please try again.");
+        return { success: false, message };
+    }
+    finally {
+        setLoading(false);
+    }
+};
     const handleLogout = async () => {
         setLoading(true);
         try {
