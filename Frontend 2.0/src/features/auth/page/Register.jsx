@@ -20,8 +20,12 @@ const Register = () => {
     }
 
     setError('')
-    await handleRegister(username, email, password);
-    navigate('/dashboard')
+    const success = await handleRegister(username, email, password)
+    if (success) {
+      navigate('/dashboard')
+    } else {
+      setError('Registration failed. Please try again.')
+    }
   }
 
   return (
@@ -63,7 +67,10 @@ const Register = () => {
             type="password"
             name="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              setPassword(e.target.value)
+              if (error) setError('')
+            }}
             placeholder="Create a password"
             className="mt-2 w-full rounded-3xl border border-[#408A71] bg-[#091413] px-4 py-3 text-[#E8F6ED] placeholder:text-[#B0E4CC]/50 focus:border-[#B0E4CC] focus:outline-none focus:ring-2 focus:ring-[#408A71]/40"
             required

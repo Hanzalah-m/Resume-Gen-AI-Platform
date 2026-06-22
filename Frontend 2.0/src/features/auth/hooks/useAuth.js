@@ -25,9 +25,11 @@ const useAuth = () => {
         try {
             const userData = await registerUser(username, email, password);
             setUser(userData.user);
+            return true;
         }
         catch (error) {
             console.error("Registration failed:", error);
+            return false;
         }
         finally {
             setLoading(false);
