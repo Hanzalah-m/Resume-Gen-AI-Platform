@@ -132,7 +132,7 @@ const Dashboard = () => {
                   </label>
                 </div>
 
-                <button onClick={handleGenerateReport} className="w-full h-14 rounded-3xl bg-gradient-to-r from-[#285A48] to-[#408A71] font-semibold hover:opacity-90 transition">
+                <button onClick={handleGenerateReport} className="w-full h-14 rounded-3xl bg-linear-to-r from-[#285A48] to-[#408A71] font-semibold hover:opacity-90 transition">
                   Generate Report
                 </button>
 
@@ -215,7 +215,7 @@ const Dashboard = () => {
           {/* Sidebar */}
           <div className="space-y-6">
 
-            <div className="rounded-[32px] border border-[#285A48] bg-[#10221B]/95 p-6">
+            <div className="rounded-4xl border border-[#285A48] bg-[#10221B]/95 p-6">
 
               <h3 className="text-lg font-semibold mb-4">
                 Profile
@@ -246,7 +246,7 @@ const Dashboard = () => {
               </div>
             </div>
 
-            <div className="rounded-[32px] border border-[#285A48] bg-[#10221B]/95 p-6">
+            <div className="rounded-4xl border border-[#285A48] bg-[#10221B]/95 p-6">
 
               <h3 className="text-lg font-semibold mb-4">
                 About

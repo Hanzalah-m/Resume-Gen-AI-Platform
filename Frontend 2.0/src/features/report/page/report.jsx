@@ -4,7 +4,7 @@ import { useReport } from "../hooks/useReport";
 
 const Report = () => {
   const { reportId } = useParams();
-  const { report, loading, fetchReportById } = useReport();
+  const { report, loading, fetchReportById, downloadResumePdf } = useReport();
   const [notFound, setNotFound] = useState(false);
 
  useEffect(() => {
@@ -25,6 +25,21 @@ const Report = () => {
 
   loadReport();
 }, [reportId]);
+
+const handleDownloadPdf = async () => {
+  if (!reportId) {
+    alert("Report ID is missing. Cannot download PDF.");
+    return;
+  }
+
+  try {
+    await downloadResumePdf(reportId);
+  } catch (error) {
+    console.error("Failed to download PDF:", error);
+    alert("Could not download the PDF. Please try again.");
+  }
+};
+
 
 
   if (loading) {
@@ -67,6 +82,18 @@ const Report = () => {
               <p className="mt-3 text-[#B0E4CC]/70">
                 Based on your resume and the provided job description.
               </p>
+            </div>
+
+            <div>
+              Download the full report as a PDF for offline access and sharing.
+              <div className="mt-3">
+                <a
+                  onClick={handleDownloadPdf}
+                  className="inline-block cursor-pointer rounded-lg bg-[#408A71] px-6 py-3 text-white font-semibold hover:bg-[#6ED6A6] transition-colors"
+                >
+                  Download PDF
+                </a>
+              </div>
             </div>
 
             <div className="flex items-center justify-center w-40 h-40 rounded-full border-10 border-[#408A71]">

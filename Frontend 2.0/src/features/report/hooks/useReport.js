@@ -55,15 +55,16 @@ export const useReport = () => {
 
     const downloadResumePdf = async (Id) => {
         setLoading(true);
+        let pdfData = null;
         try {
-            const pdfData = await generateResumePdf(Id);
+            pdfData = await generateResumePdf({Id});
             const url = window.URL.createObjectURL(new Blob([pdfData], { type: 'application/pdf' }));
             const link = document.createElement('a');
             link.href = url;
             link.setAttribute('download', `resume_${Id}.pdf`);
             document.body.appendChild(link);
             link.click();
-            link.remove();
+            
         }
         catch (error) {
             console.error("Downloading PDF failed:", error);
