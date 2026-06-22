@@ -6,36 +6,51 @@ const useAuth = () => {
     const context = useContext(AuthContext);  
     const { user, setUser, loading, setLoading } = context;
 
-    const handleLogin = async (username, email, password) => {
-        setLoading(true);
-        try {
-            const userData = await loginUser( username, email, password);
-            setUser(userData.user);
-        }
-        catch (error) {
-            console.error("Login failed:", error);
-        }
-        finally {
-            setLoading(false);
-        }
-    };
+  const handleLogin = async (username, email, password) => {
+    setLoading(true);
 
-    const handleRegister = async (username, email, password) => {
-        setLoading(true);
-        try {
-            const userData = await registerUser(username, email, password);
-            setUser(userData.user);
-            return true;
-        }
-        catch (error) {
-            console.error("Registration failed:", error);
-            return false;
-        }
-        finally {
-            setLoading(false);
-        }
-    };
+    try {
+        const userData = await loginUser(username, email, password);
 
+        setUser(userData.user);
+
+        return {
+            success: true
+        };
+
+    } catch (error) {
+        console.error("Login failed:", error);
+
+        return {
+            success: false,
+            message:
+                error.response?.data?.message ||
+                "Invalid username or password"
+        };
+
+    } finally {
+        setLoading(false);
+    }
+};
+
+const handleRegister = async (username, email, password) => {
+    setLoading(true);
+    try {
+        const userData = await registerUser(username, email, password);
+        setUser(userData.user);
+        return { success: true };
+    }
+    catch (error) {
+        console.error("Registration failed:", error);
+        const message =
+            error?.message ||
+            (typeof error === "string" ? error : "Registration failed. Please try again.");
+        return { success: false, message };
+    }
+    finally {
+        setLoading(false);
+    }
+};
     const handleLogout = async () => {
         setLoading(true);
         try {

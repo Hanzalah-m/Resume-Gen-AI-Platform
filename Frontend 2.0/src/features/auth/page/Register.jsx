@@ -24,7 +24,7 @@ const Register = () => {
     if (success) {
       navigate('/dashboard')
     } else {
-      setError('Registration failed. Please try again.')
+      setError(result?.message || 'Registration failed. Please try again.')
     }
   }
 
@@ -35,6 +35,12 @@ const Register = () => {
         <h1 className="mt-3 text-4xl font-semibold text-white">Register</h1>
         <p className="mt-3 text-sm text-[#B0E4CC]/80">Enter your username, email, and password to join.</p>
       </div>
+
+      {error && (
+        <div className="mb-4 rounded-2xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-300">
+          {error}
+        </div>
+      )}
 
       <form className="space-y-2" onSubmit={handleSubmit}>
         <label className="block">
@@ -48,7 +54,6 @@ const Register = () => {
             required
           />
         </label>
-
         <label className="block">
           <span className="text-sm font-medium text-[#B0E4CC]">Email</span>
           <input
@@ -60,7 +65,6 @@ const Register = () => {
             required
           />
         </label>
-
         <label className="block">
           <span className="text-sm font-medium text-[#B0E4CC]">Password</span>
           <input
@@ -102,7 +106,7 @@ const Register = () => {
           disabled={loading || (confirmPassword.length > 0 && password !== confirmPassword)}
           className="w-full rounded-3xl bg-linear-to-r from-[#285A48] to-[#408A71] px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-[#285A48]/30 transition hover:-translate-y-0.5 hover:shadow-[#408A71]/30 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
         >
-          Register
+          {loading ? 'Registering...' : 'Register'}
         </button>
       </form>
     </div>
