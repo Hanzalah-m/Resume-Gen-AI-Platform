@@ -10,6 +10,11 @@ async function generateReportController(req, res) {
 
     const resumeContent = await (new pdfParse.PDFParse(Uint8Array.from(req.file.buffer))).getText()
     const { selfDescription, jobDescription } = req.body
+    const userId = req.user?._id
+
+    if (!userId) {
+        return res.status(401).json({ message: "Unauthorized user." })
+    }
 
     const ReportByAi = await generateReport({
         resume: resumeContent.text,
@@ -18,7 +23,7 @@ async function generateReportController(req, res) {
     })
 
     const Report = await ReportModel.create({
-        user: req.user.id,
+        user: userId,
         resume: resumeContent.text,
         selfDescription,
         jobDescription,
@@ -35,26 +40,37 @@ async function generateReportController(req, res) {
 async function getReportByIdController(req, res) {
 
     const { Id } = req.params
+    const userId = req.user?._id
 
-    const Report = await ReportModel.findOne({ _id: Id, user: req.user.id })
+    if (!userId) {
+        return res.status(401).json({ message: "Unauthorized user." })
+    }
+
+    const Report = await ReportModel.findOne({ _id: Id, user: userId })
 
     if (!Report) {
         return res.status(404).json({
-            message: " report not found."
+            message: "Report not found."
         })
     }
 
     res.status(200).json({
-        message: " report fetched successfully.",
+        message: "Report fetched successfully.",
         Report
     })
 }
 
 async function getAllReportsController(req, res) {
-    const Reports = await ReportModel.find({ user: req.user.id }).sort({ createdAt: -1 }).select("-resume -__v -technicalQuestions -behavioralQuestions -skillGaps -preparationPlan")
+    const userId = req.user?._id
+
+    if (!userId) {
+        return res.status(401).json({ message: "Unauthorized user." })
+    }
+
+    const Reports = await ReportModel.find({ user: userId }).sort({ createdAt: -1 }).select("-resume -__v -technicalQuestions -behavioralQuestions -skillGaps -preparationPlan")
 
     res.status(200).json({
-        message: " reports fetched successfully.",
+        message: "Reports fetched successfully.",
         Reports
     })
 }
@@ -62,8 +78,13 @@ async function getAllReportsController(req, res) {
 
 async function generateResumePdfController(req, res) {
     const { Id } = req.params;
+    const userId = req.user?._id
 
-    const Report = await ReportModel.findOne({ _id: Id, user: req.user.id });
+    if (!userId) {
+        return res.status(401).json({ message: "Unauthorized user." })
+    }
+
+    const Report = await ReportModel.findOne({ _id: Id, user: userId });
 
     if (!Report) {
         return res.status(404).json({
