@@ -24,11 +24,13 @@ const Login = () => {
 
 const [identifier, setIdentifier] = useState("");
 const [password, setPassword] = useState("");
-
+const [error, setError] = useState("");
 const isEmail = (value) => /\S+@\S+\.\S+/.test(value);
 
 const handleSubmit = async (e) => {
   e.preventDefault();
+
+  setError("");
 
   const payload = {
     password
@@ -40,8 +42,17 @@ const handleSubmit = async (e) => {
     payload.username = identifier;
   }
 
-  await handleLogin(payload.username, payload.email, payload.password);
-  navigate('/dashboard')
+  const result = await handleLogin(
+    payload.username,
+    payload.email,
+    payload.password
+  );
+
+  if (result.success) {
+    navigate('/dashboard');
+  } else {
+    setError(result.message);
+  }
 };
 
 
@@ -93,6 +104,12 @@ const handleSubmit = async (e) => {
             required
           />
         </label>
+
+          {error && (
+            <p className="text-red-500 text-sm text-center">
+              {error}
+            </p>
+          )}
 
         <button
           type="submit"
