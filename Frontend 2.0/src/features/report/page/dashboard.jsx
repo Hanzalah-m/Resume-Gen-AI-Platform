@@ -34,93 +34,98 @@ const Dashboard = () => {
     }
   }
 
-    return (
-        <div className="min-h-screen bg-[#07100E] text-white">
-      <div className="max-w-7xl mx-auto px-6 py-8">
+  return (
+    <div className="min-h-screen bg-[#07100E] text-white">
+      <div className="max-w-7xl mx-auto px-4 py-6 md:px-6 md:py-8">
 
         {/* Header */}
-        <div className="mb-10">
-          <h1 className="text-4xl font-bold text-[#E8F6ED]">
+        <div className="mb-6 md:mb-10">
+          <h1 className="text-2xl md:text-4xl font-bold text-[#E8F6ED]">
             Welcome Back
           </h1>
 
-          <p className="mt-2 text-[#B0E4CC]/70">
+          <p className="mt-2 text-sm md:text-base text-[#B0E4CC]/70">
             Generate AI-powered interview preparation reports from your resume and job description.
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-[1fr_320px] gap-8">
+        <div className="grid lg:grid-cols-[1fr_320px] gap-4 md:gap-8">
 
           {/* Main Section */}
-          <div className="space-y-8">
+          <div className="space-y-4 md:space-y-8">
 
             {/* Generate Report */}
-            <div className="rounded-4xl border border-[#285A48] bg-[#10221B]/95 p-8">
+            <div className="rounded-2xl md:rounded-4xl border border-[#285A48] bg-[#10221B]/95 p-4 md:p-8">
 
-              <div className="flex items-center gap-3 mb-8">
-                <div className="p-3 rounded-2xl bg-[#285A48]/30">
-                  <Plus size={22} />
+              <div className="flex items-center gap-3 mb-4 md:mb-8">
+                <div className="p-2 md:p-3 rounded-xl md:rounded-2xl bg-[#285A48]/30 flex-shrink-0">
+                  <Plus size={20} className="md:hidden" />
+                  <Plus size={22} className="hidden md:block" />
                 </div>
 
-                <div>
-                  <h2 className="text-2xl font-semibold">
+                <div className="min-w-0">
+                  <h2 className="text-lg md:text-2xl font-semibold">
                     Generate Report
                   </h2>
 
-                  <p className="text-[#B0E4CC]/70 text-sm">
+                  <p className="text-[#B0E4CC]/70 text-xs md:text-sm">
                     Upload your resume and provide job details.
                   </p>
                 </div>
               </div>
 
-              <div className="space-y-6">
+              <div className="space-y-4 md:space-y-6">
 
                 {/* JD */}
                 <div>
-                  <label className="block mb-2 text-sm text-[#B0E4CC]">
+                  <label className="block mb-2 text-xs md:text-sm text-[#B0E4CC]">
                     Job Description
                   </label>
 
                   <textarea
-                    rows={6}
+                    rows={5}
                     onChange={(e) => setJobDescription(e.target.value)}
                     placeholder="Paste the job description..."
-                    className="w-full rounded-3xl border border-[#285A48] bg-[#091413] p-4 text-white outline-none focus:border-[#408A71]"
+                    className="w-full rounded-2xl md:rounded-3xl border border-[#285A48] bg-[#091413] p-3 md:p-4 text-sm md:text-base text-white outline-none focus:border-[#408A71]"
                   />
                 </div>
 
                 {/* Self Description */}
                 <div>
-                  <label className="block mb-2 text-sm text-[#B0E4CC]">
+                  <label className="block mb-2 text-xs md:text-sm text-[#B0E4CC]">
                     Career Background
                   </label>
 
                   <textarea
-                    rows={5}
+                    rows={4}
                     onChange={(e) => setSelfDescription(e.target.value)}
                     placeholder="Describe your skills, experience and achievements..."
-                    className="w-full rounded-3xl border border-[#285A48] bg-[#091413] p-4 text-white outline-none focus:border-[#408A71]"
+                    className="w-full rounded-2xl md:rounded-3xl border border-[#285A48] bg-[#091413] p-3 md:p-4 text-sm md:text-base text-white outline-none focus:border-[#408A71]"
                   />
                 </div>
 
                 {/* Upload */}
                 <div>
-                  <label className="block mb-2 text-sm text-[#B0E4CC]">
+                  <label className="block mb-2 text-xs md:text-sm text-[#B0E4CC]">
                     Resume
                   </label>
 
-                  <label className="flex flex-col items-center justify-center h-44 rounded-3xl border-2 border-dashed border-[#408A71] bg-[#091413] cursor-pointer hover:bg-[#0d1715] transition">
+                  <label className="flex flex-col items-center justify-center h-36 md:h-44 rounded-2xl md:rounded-3xl border-2 border-dashed border-[#408A71] bg-[#091413] cursor-pointer hover:bg-[#0d1715] transition px-4 text-center">
 
                     <Upload
+                      size={28}
+                      className="text-[#B0E4CC] md:hidden"
+                    />
+                    <Upload
                       size={34}
-                      className="text-[#B0E4CC]"
+                      className="text-[#B0E4CC] hidden md:block"
                     />
 
-                    <p className="mt-4 text-[#E8F6ED]">
+                    <p className="mt-3 md:mt-4 text-sm md:text-base text-[#E8F6ED]">
                       Upload Resume
                     </p>
 
-                    <span className="text-sm text-[#B0E4CC]/60">
+                    <span className="text-xs md:text-sm text-[#B0E4CC]/60">
                       PDF or DOCX
                     </span>
 
@@ -132,7 +137,7 @@ const Dashboard = () => {
                   </label>
                 </div>
 
-                <button onClick={handleGenerateReport} className="w-full h-14 rounded-3xl bg-linear-to-r from-[#285A48] to-[#408A71] font-semibold hover:opacity-90 transition">
+                <button onClick={handleGenerateReport} className="w-full h-12 md:h-14 rounded-2xl md:rounded-3xl bg-linear-to-r from-[#285A48] to-[#408A71] text-sm md:text-base font-semibold hover:opacity-90 transition">
                   Generate Report
                 </button>
 
@@ -140,68 +145,76 @@ const Dashboard = () => {
             </div>
 
             {/* Recent Reports */}
-            <div className="rounded-4xl border border-[#285A48] bg-[#10221B]/95 p-8">
+            <div className="rounded-2xl md:rounded-4xl border border-[#285A48] bg-[#10221B]/95 p-4 md:p-8">
 
-              <div className="flex justify-between items-center mb-6">
+              <div className="flex justify-between items-center mb-4 md:mb-6">
 
-                <h2 className="text-xl font-semibold">
+                <h2 className="text-lg md:text-xl font-semibold">
                   Recent Reports
                 </h2>
 
-                <button className="text-[#6ED6A6] text-sm" onClick={() => navigate('/dashboard')}>
+                <button className="text-[#6ED6A6] text-xs md:text-sm" onClick={() => navigate('/dashboard')}>
                   View All
                 </button>
               </div>
 
               {loading && reports.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-14">
+                <div className="flex flex-col items-center justify-center py-10 md:py-14">
+                  <FileText
+                    size={36}
+                    className="text-[#408A71] animate-pulse md:hidden"
+                  />
                   <FileText
                     size={40}
-                    className="text-[#408A71] animate-pulse"
+                    className="text-[#408A71] animate-pulse hidden md:block"
                   />
-                  <h3 className="mt-4 text-lg font-medium">
+                  <h3 className="mt-4 text-base md:text-lg font-medium">
                     Loading reports...
                   </h3>
                 </div>
               ) : reports.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-14">
+                <div className="flex flex-col items-center justify-center py-10 md:py-14 px-4 text-center">
+                  <FileText
+                    size={36}
+                    className="text-[#408A71] md:hidden"
+                  />
                   <FileText
                     size={40}
-                    className="text-[#408A71]"
+                    className="text-[#408A71] hidden md:block"
                   />
 
-                  <h3 className="mt-4 text-lg font-medium">
+                  <h3 className="mt-4 text-base md:text-lg font-medium">
                     No Reports Yet
                   </h3>
 
-                  <p className="text-[#B0E4CC]/60 text-center mt-2">
+                  <p className="text-[#B0E4CC]/60 text-center mt-2 text-sm md:text-base">
                     Generate your first report to start interview preparation.
                   </p>
                 </div>
               ) : (
-                <div className="space-y-4">
+                <div className="space-y-3 md:space-y-4">
                   {reports.slice(0, 4).map((item) => (
                     <div
                       key={item._id}
-                      className="rounded-3xl border border-[#285A48] bg-[#091413]/90 p-5 cursor-pointer transition hover:border-[#6ED6A6]"
+                      className="rounded-2xl md:rounded-3xl border border-[#285A48] bg-[#091413]/90 p-4 md:p-5 cursor-pointer transition hover:border-[#6ED6A6]"
                       onClick={() => navigate(`/report/${item._id}`)}
                     >
-                      <div className="flex items-start justify-between gap-4">
-                        <div>
-                          <h3 className="text-lg font-semibold text-white">
+                      <div className="flex items-start justify-between gap-3 md:gap-4">
+                        <div className="min-w-0">
+                          <h3 className="text-base md:text-lg font-semibold text-white truncate">
                             {item.title || 'Untitled report'}
                           </h3>
-                          <p className="mt-2 text-sm text-[#B0E4CC]/70 line-clamp-2">
+                          <p className="mt-1 md:mt-2 text-xs md:text-sm text-[#B0E4CC]/70 line-clamp-2">
                             {item.jobDescription?.slice(0, 100) || 'No job description provided.'}
                           </p>
                         </div>
-                        <span className="rounded-full bg-[#335748]/80 px-3 py-1 text-xs font-semibold text-[#B0E4CC]">
+                        <span className="flex-shrink-0 rounded-full bg-[#335748]/80 px-2.5 py-1 md:px-3 md:py-1 text-xs font-semibold text-[#B0E4CC]">
                           {item.matchScore ?? '—'}%
                         </span>
                       </div>
-                      <div className="mt-4 flex items-center justify-between text-xs text-[#B0E4CC]/60">
+                      <div className="mt-3 md:mt-4 flex items-center justify-between text-xs text-[#B0E4CC]/60">
                         <span>{new Date(item.createdAt).toLocaleDateString()}</span>
-                        <span>{item.selfDescription ? 'Ready to review' : 'No description'}</span>
+                        <span className="truncate ml-2">{item.selfDescription ? 'Ready to review' : 'No description'}</span>
                       </div>
                     </div>
                   ))}
@@ -213,32 +226,32 @@ const Dashboard = () => {
           </div>
 
           {/* Sidebar */}
-          <div className="space-y-6">
+          <div className="space-y-4 md:space-y-6">
 
-            <div className="rounded-4xl border border-[#285A48] bg-[#10221B]/95 p-6">
+            <div className="rounded-2xl md:rounded-4xl border border-[#285A48] bg-[#10221B]/95 p-4 md:p-6">
 
-              <h3 className="text-lg font-semibold mb-4">
+              <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4">
                 Profile
               </h3>
 
               <div className="space-y-3">
 
                 <div>
-                  <p className="text-[#B0E4CC]/60 text-sm">
+                  <p className="text-[#B0E4CC]/60 text-xs md:text-sm">
                     Reports Generated
                   </p>
 
-                  <p className="text-xl font-bold">
+                  <p className="text-lg md:text-xl font-bold">
                     {reports.length}
                   </p>
                 </div>
 
                 <div>
-                  <p className="text-[#B0E4CC]/60 text-sm">
+                  <p className="text-[#B0E4CC]/60 text-xs md:text-sm">
                     Last Report
                   </p>
 
-                  <p className="text-sm">
+                  <p className="text-sm truncate">
                     {reports[0]?.title || '—'}
                   </p>
                 </div>
@@ -246,13 +259,13 @@ const Dashboard = () => {
               </div>
             </div>
 
-            <div className="rounded-4xl border border-[#285A48] bg-[#10221B]/95 p-6">
+            <div className="rounded-2xl md:rounded-4xl border border-[#285A48] bg-[#10221B]/95 p-4 md:p-6">
 
-              <h3 className="text-lg font-semibold mb-4">
+              <h3 className="text-base md:text-lg font-semibold mb-3 md:mb-4">
                 About
               </h3>
 
-              <p className="text-sm text-[#B0E4CC]/70 leading-6">
+              <p className="text-xs md:text-sm text-[#B0E4CC]/70 leading-6">
                 Upload a resume, provide a job description, and generate an AI-powered interview preparation report with skill gap analysis, technical questions, behavioral questions, and a personalized study plan.
               </p>
 
@@ -264,7 +277,7 @@ const Dashboard = () => {
 
       </div>
     </div>
-    );
+  );
 }
 
 export default memo(Dashboard);
