@@ -5,13 +5,22 @@ const api = axios.create({
   withCredentials: true,
 });
 
-async function registerUser(username, email, password) {
+async function sendOtp(username, email, password) {
   try {
-    const response = await api.post("/api/auth/register",{username, email, password});
+    const response = await api.post("/api/auth/send-otp", { username, email, password });
     return response.data;
   } catch (error) {
     throw error.response ? error.response.data : new Error("Network Error");
-  } 
+  }
+}
+
+async function verifyOtp(email, otp) {
+  try {
+    const response = await api.post("/api/auth/verify-otp", { email, otp });
+    return response.data;
+  } catch (error) {
+    throw error.response ? error.response.data : new Error("Network Error");
+  }
 }
 
 async function loginUser(username, email, password) {
@@ -41,4 +50,4 @@ async function getCurrentUser() {
   }
 }
 
-export { registerUser, loginUser, logoutUser , getCurrentUser };
+export { sendOtp, verifyOtp, loginUser, logoutUser, getCurrentUser };
