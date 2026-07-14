@@ -1,25 +1,27 @@
-// utils/sendEmail.js
-const nodemailer = require("nodemailer")
+const nodemailer = require("nodemailer");
 
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "smtp-relay.brevo.com",
+  port: 587,
+  secure: false,
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS // Gmail App Password, not your real password
-  }
-})
+    user: process.env.BREVO_LOGIN,
+    pass: process.env.BREVO_SMTP_KEY,
+  },
+});
 
 async function sendOtpEmail(toEmail, otp) {
   await transporter.sendMail({
-    from: `"Resume Gen AI" <${process.env.EMAIL_USER}>`,
+    from: `"Resume Gen AI" <${process.env.BREVO_SENDER}>`,
     to: toEmail,
-    subject: "Your verification code",
+    subject: "Your Verification Code",
     html: `
-      <p>Your OTP for account verification is:</p>
-      <h2>${otp}</h2>
-      <p>This code expires in 5 minutes. If you didn't request this, ignore this email.</p>
-    `
-  })
+      <h2>Your OTP is ${otp}</h2>
+      <p>This OTP expires in 5 minutes.</p>
+    `,
+  });
+
+  console.log("Email sent successfully");
 }
 
-module.exports = { sendOtpEmail }
+module.exports = { sendOtpEmail };
