@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { AuthContext } from "../state/auth.context";
-import { registerUser, loginUser, logoutUser , getCurrentUser } from "../services/auth.api";
+import { sendOtp, verifyOtp, loginUser, logoutUser , getCurrentUser } from "../services/auth.api";
 
 const useAuth = () => {
     const context = useContext(AuthContext);  
@@ -33,24 +33,43 @@ const useAuth = () => {
     }
 };
 
-const handleRegister = async (username, email, password) => {
+const handleSendOtp = async (username, email, password) => {
     setLoading(true);
     try {
-        const userData = await registerUser(username, email, password);
-        setUser(userData.user);
-        return { success: true };
+        const data = await sendOtp(username, email, password);
+        return { success: true, message: data.message };
     }
     catch (error) {
-        console.error("Registration failed:", error);
+        console.error("Send OTP failed:", error);
         const message =
             error?.message ||
-            (typeof error === "string" ? error : "Registration failed. Please try again.");
+            (typeof error === "string" ? error : "Failed to send OTP. Please try again.");
         return { success: false, message };
     }
     finally {
         setLoading(false);
     }
 };
+
+const handleVerifyOtp = async (email, otp) => {
+    setLoading(true);
+    try {
+        const userData = await verifyOtp(email, otp);
+        setUser(userData.user);
+        return { success: true };
+    }
+    catch (error) {
+        console.error("OTP verification failed:", error);
+        const message =
+            error?.message ||
+            (typeof error === "string" ? error : "Invalid or expired OTP.");
+        return { success: false, message };
+    }
+    finally {
+        setLoading(false);
+    }
+};
+
     const handleLogout = async () => {
         setLoading(true);
         try {
@@ -83,7 +102,8 @@ const handleRegister = async (username, email, password) => {
         user,
         loading,
         handleLogin,
-        handleRegister,
+        handleSendOtp,
+        handleVerifyOtp,
         handleLogout,
         fetchCurrentUser,
         

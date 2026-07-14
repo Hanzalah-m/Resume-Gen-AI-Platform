@@ -5,7 +5,8 @@ const authMiddleware = require("../middlewares/auth.middleware")
 const router = express.Router()
 
 
-router.post('/register', authController.registerUserController)
+router.post('/send-otp', authController.sendOtpController)
+router.post('/verify-otp', authController.verifyOtpController)
 router.post('/login', authController.loginUserController)
 router.post('/logout', authController.logoutUserController)
 router.get('/me', authMiddleware.authUser, authController.getUserController)
